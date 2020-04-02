@@ -6,6 +6,7 @@
 *.dylib
 # WebAssembly
 *.wasm
+public/wasm_exec.js
 
 # Test binary, built with `go test -c`
 *.test
