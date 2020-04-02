@@ -1,27 +1,38 @@
 # go-webassembly-tutorial
 
-## Hello world Demo
+## WebAssembly Calculator Demo
 
 ## Build
 
-```bash
-GOOS=js GOARCH=wasm go build -o public/main.wasm cmd/helloworld/main.go
-```
+make build
 
 ### Serve
 
-```bash
-go run cmd/serve/main.go
-```
+make serve
 
 ### Build and serve
 
-```bash
-GOOS=js GOARCH=wasm go build -o public/main.wasm cmd/helloworld/main.go && go run cmd/serve/main.go
+make build serve
+
+## Editor Config
+
+### `could not import syscall/js (no package for import syscall/js)`
+
+#### VS Code
+
+When using Go modules related to WebAssembly, namely syscall/js, the default settings in VS Code will trigger error reports like "Build constraints exclude all Go files" in the editor.
+
+Preferences > Settings > Workspace > Go tools env var.
+
+Set the following:
+
+```json
+{
+    "go.toolsEnvVars": {
+        "GOOS": "js",
+        "GOARCH": "wasm"
+    }
+}
 ```
 
-## TODO
-
-- Makefile
-  - Serve & Deploy
-  - Remove wasm_exec.js & copy from src
+Ctrl + Shift + P > Reload Window.

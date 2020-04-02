@@ -4,7 +4,7 @@ init:
 
 .PHONY: build
 build:
-		GOOS=js GOARCH=wasm go build -o public/main.wasm cmd/helloworld/main.go
+		GOOS=js GOARCH=wasm go build -o public/main.wasm cmd/calculator/main.go
 
 .PHONY: serve
 serve:
