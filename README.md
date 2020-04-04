@@ -4,17 +4,17 @@
 
 ## Build
 
-make build
+```bash
+make <experiment>
+```
 
 ### Serve
 
+```bash
 make serve
+```
 
-### Build and serve
-
-make build serve
-
-## Editor Config
+## Editor configuration
 
 ### `could not import syscall/js (no package for import syscall/js)`
 
@@ -36,3 +36,7 @@ Set the following:
 ```
 
 Ctrl + Shift + P > Reload Window.
+
+#### GoLand / Intellij Ultimate
+
+[Configuring GoLand for WebAssembly (Wasm) projects](https://github.com/golang/go/wiki/Configuring-GoLand-for-WebAssembly)

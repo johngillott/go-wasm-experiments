@@ -6,7 +6,8 @@
 *.dylib
 # WebAssembly
 *.wasm
-public/wasm_exec.js
+# distribution folder
+public/*
 
 # Test binary, built with `go test -c`
 *.test
