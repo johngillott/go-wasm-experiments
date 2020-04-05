@@ -17,3 +17,9 @@ channels: clean
 		@cp $$(go env GOROOT)/misc/wasm/wasm_exec.html ./public/index.html
 		@cp $$(go env GOROOT)/misc/wasm/wasm_exec.js ./public/wasm_exec.js
 
+.PHONY: websockets
+websockets: clean
+		@GOOS=js GOARCH=wasm go build -o ./public/test.wasm ./websockets/main.go
+		@cp $$(go env GOROOT)/misc/wasm/wasm_exec.html ./public/index.html
+		@cp $$(go env GOROOT)/misc/wasm/wasm_exec.js ./public/wasm_exec.js
+
