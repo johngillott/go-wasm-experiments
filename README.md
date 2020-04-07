@@ -1,6 +1,4 @@
-# go-webassembly-tutorial
-
-## WebAssembly Calculator Demo
+# go-webassembly-experiments
 
 ## Build
 

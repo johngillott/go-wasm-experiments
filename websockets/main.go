@@ -3,64 +3,30 @@
 package main
 
 import (
-	"bytes"
-	"fmt"
-	"io"
-	"net"
-	"net/http"
-	"net/http/httptest"
-
-	"golang.org/x/net/websocket"
+	"syscall/js"
+	"time"
 )
 
 func main() {
-	serverAddr := startServer()
 
-	println("WebSocket server listening on ", serverAddr)
+	c := make(chan struct{}, 0)
 
-	// websocket.Dial()
-	client, err := net.Dial("tcp", serverAddr)
-	if err != nil {
-		panic(err)
-	}
-	conn, err := websocket.NewClient(newConfig(serverAddr, "/echo"), client)
-	if err != nil {
-		panic(err)
-	}
+	ws := js.Global().Get("WebSocket").New("ws://localhost:8081/echo")
 
-	msg := []byte("hello, world\n")
-	if _, err := conn.Write(msg); err != nil {
-		panic(err)
-	}
-	var gotMsg = make([]byte, 512)
-	n, err := conn.Read(gotMsg)
-	if err != nil {
-		panic(err)
-	}
-	gotMsg = gotMsg[0:n]
-	if !bytes.Equal(msg, gotMsg) {
-		panic(err)
-	}
-	err = conn.Close()
-	if err != nil {
-		panic(err)
-	}
+	ws.Call("addEventListener", "open", js.FuncOf(func(this js.Value, args []js.Value) interface{} {
 
-	fmt.Printf("Received: %q\n", gotMsg)
-}
+		ws.Call("send", "Hello, World!\n")
 
-func startServer() string {
-	http.Handle("/echo", websocket.Handler(echoServer))
-	server := httptest.NewServer(nil)
-	return server.Listener.Addr().String()
-}
+		return nil
+	}))
 
-func echoServer(ws *websocket.Conn) {
-	defer ws.Close()
-	io.Copy(ws, ws)
-}
+	ws.Call("addEventListener", "message", js.FuncOf(func(this js.Value, args []js.Value) interface{} {
 
-func newConfig(serverAddr, path string) *websocket.Config {
-	config, _ := websocket.NewConfig(fmt.Sprintf("ws://%s%s", serverAddr, path), "http://localhost")
-	return config
+		time.Sleep(5 * time.Second)
+		ws.Call("send", "Hello, World!\n")
+
+		return nil
+	}))
+
+	<-c
 }
